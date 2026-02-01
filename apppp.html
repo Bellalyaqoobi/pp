@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ارتباط خصوصی - AghayeRobat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #25D366;
+            --primary-dark: #1DA851;
+            --primary-light: #5DF591;
+            --gradient-start: #0c0c0c;
+            --gradient-middle: #0a1a1f;
+            --gradient-end: #0d2b3a;
+            --card-bg: rgba(15, 25, 35, 0.7);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            --success: #00C851;
+            --warning: #ffbb33;
+            --danger: #ff4444;
+        }
+
+        body {
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-middle), var(--gradient-end));
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* پس‌زمینه متحرک */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(37, 211, 102, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* نوار بالایی */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 20, 30, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 5px 20px var(--shadow-color);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            font-size: 1.8rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* محتوای اصلی */
+        .main-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero-title {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* بخش اصلی پیام */
+        .message-section {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .message-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .message-input {
+            width: 100%;
+            padding: 18px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 150px;
+            transition: all 0.3s;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.2);
+        }
+
+        .char-counter {
+            text-align: left;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 18px 35px;
+            border-radius: 12px;
+            border: none;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 200px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        /* بخش ارتباط خصوصی */
+        .private-section {
+            text-align: center;
+            padding: 40px;
+            background: rgba(10, 20, 30, 0.5);
+            border-radius: 20px;
+            margin-bottom: 50px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .private-icon {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .private-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .private-desc {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 25px;
+            line-height: 1.7;
+        }
+
+        .private-info {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        /* آمار */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* فوتر */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(5, 15, 25, 0.8);
+            border-top: 1px solid var(--glass-border);
+            margin-top: 50px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        /* مودال */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+        }
+
+        /* اسکرول بار سفارشی */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* پاسخگو بودن */
+        @media (max-width: 768px) {
+            .main-container {
+                margin-top: 80px;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .message-section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- پس‌زمینه متحرک -->
+    <div class="background-animation" id="backgroundAnimation"></div>
+
+    <!-- نوار بالایی -->
+    <div class="top-bar">
+        <div class="logo">
+            <i class="fab fa-whatsapp logo-icon"></i>
+            <span>ارتباط خصوصی</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-link active">خانه</a>
+            <a href="#" class="nav-link">امنیت</a>
+            <a href="#" class="nav-link">راهنما</a>
+            <a href="#" class="nav-link">درباره ما</a>
+        </div>
+    </div>
+
+    <!-- محتوای اصلی -->
+    <div class="main-container">
+        <!-- بخش قهرمان -->
+        <section class="hero-section">
+            <h1 class="hero-title">ارتباط امن و سریع با واتساپ</h1>
+            <p class="hero-subtitle">
+                بدون نیاز به ذخیره شماره و با حفظ حریم خصوصی کامل، از طریق این پلتفرم می‌توانید مستقیماً پیام خود را ارسال کنید.
+                شماره تماس به صورت عمومی نمایش داده نمی‌شود.
+            </p>
+        </section>
+
+        <!-- ویژگی‌ها -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">حریم خصوصی کامل</h3>
+                <p class="feature-desc">
+                    شماره تماس شما و گیرنده در سرور ذخیره نمی‌شود. تمام ارتباطات مستقیم و رمزگذاری شده است.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="feature-title">ارتباط فوری</h3>
+                <p class="feature-desc">
+                    بدون نیاز به ثبت‌نام یا نصب برنامه اضافی، مستقیماً به واتساپ منتقل شده و پیام خود را ارسال کنید.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-comment-dots"></i>
+                </div>
+                <h3 class="feature-title">پیام‌های سفارشی</h3>
+                <p class="feature-desc">
+                    می‌توانید پیام خود را قبل از ارسال ویرایش کرده و از قالب‌های آماده استفاده کنید.
+                </p>
+            </div>
+        </div>
+
+        <!-- بخش پیام‌رسانی -->
+        <section class="message-section">
+            <h2 class="section-title">ارسال پیام خصوصی</h2>
+            
+            <div class="message-form">
+                <div class="form-group">
+                    <label class="form-label">پیام خود را بنویسید:</label>
+                    <textarea class="message-input" id="messageInput" placeholder="متن پیام خود را اینجا تایپ کنید...">سلام، می‌خواستم با شما در ارتباط باشم.</textarea>
+                    <div class="char-counter">
+                        تعداد کاراکتر: <span id="charCount">0</span>
+                    </div>
+                </div>
+                
+                <div class="buttons-container">
+                    <button class="btn btn-primary" id="sendButton">
+                        <i class="fab fa-whatsapp"></i>
+                        ارسال پیام خصوصی
+                    </button>
+                    <button class="btn btn-secondary" id="templatesButton">
+                        <i class="fas fa-file-alt"></i>
+                        قالب‌های آماده
+                    </button>
+                    <button class="btn btn-secondary" id="securityInfoButton">
+                        <i class="fas fa-info-circle"></i>
+                        اطلاعات امنیتی
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش ارتباط خصوصی -->
+        <section class="private-section">
+            <div class="private-icon">
+                <i class="fas fa-user-secret"></i>
+            </div>
+            <h2 class="private-title">شماره تماس محرمانه است</h2>
+            <p class="private-desc">
+                برای حفظ حریم خصوصی، شماره تماس در این وب‌سایت نمایش داده نمی‌شود.
+                تنها با کلیک بر روی دکمه ارسال، به صورت خودکار به واتساپ منتقل شده و پیام شما ارسال خواهد شد.
+            </p>
+            <div class="private-info">
+                <p><i class="fas fa-lock"></i> ارتباط رمزگذاری شده</p>
+                <p><i class="fas fa-eye-slash"></i> عدم نمایش عمومی شماره</p>
+                <p><i class="fas fa-history"></i> عدم ذخیره‌سازی پیام‌ها</p>
+            </div>
+        </section>
+
+        <!-- آمار -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number" id="messageCount">۲,۸۴۷</div>
+                <div class="stat-label">پیام ارسال شده</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="successRate">۹۹.۸٪</div>
+                <div class="stat-label">میزان موفقیت</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="responseTime">۲.۳</div>
+                <div class="stat-label">میانگین پاسخ (دقیقه)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="userCount">۱,۵۲۴</div>
+                <div class="stat-label">کاربر فعال</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- فوتر -->
+    <footer>
+        <div class="footer-logo">
+            <i class="fab fa-whatsapp"></i> ارتباط خصوصی
+        </div>
+        <div class="footer-links">
+            <a href="#" class="footer-link">حریم خصوصی</a>
+            <a href="#" class="footer-link">قوانین استفاده</a>
+            <a href="#" class="footer-link">پشتیبانی</a>
+            <a href="#" class="footer-link">سوالات متداول</a>
+            <a href="#" class="footer-link">تماس با ما</a>
+        </div>
+        <div class="copyright">
+            © ۱۴۰۲ - تمامی حقوق محفوظ است. این وب‌سایت تنها یک واسط برای ارتباط واتساپی است و اطلاعاتی ذخیره نمی‌کند.
+        </div>
+    </footer>
+
+    <!-- مودال قالب‌ها -->
+    <div class="modal" id="templatesModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeTemplatesModal">&times;</button>
+            <h2 class="section-title">قالب‌های پیام آماده</h2>
+            <div style="margin-top: 25px;">
+                <div class="template-list">
+                    <div class="template-item" data-template="سلام، وقت شما بخیر. می‌خواستم در مورد خدمات شما اطلاعات بیشتری دریافت کنم.">
+                        <p>درخواست اطلاعات</p>
+                        <button class="btn-secondary" style="padding: 8px 15px; font-size: 0.9rem;">استفاده</button>
+                    </div>
+                    <div class="template-item" data-template="با سلام، لطفاً برای هماهنگی جلسه با من تماس بگیرید.">
+                        <p>درخواست تماس</p>
+                        <button class="btn-secondary" style="padding: 8px 15px; font-size: 0.9rem;">استفاده</button>
+                    </div>
+                    <div class="template-item" data-template="سلام، من سفارش شماره #۱۲۳۴ را ثبت کرده‌ام. لطفاً وضعیت آن را بررسی کنید.">
+                        <p>پیگیری سفارش</p>
+                        <button class="btn-secondary" style="padding: 8px 15px; font-size: 0.9rem;">استفاده</button>
+                    </div>
+                    <div class="template-item" data-template="با درود، برای مشاوره رایگان می‌خواهم وقت رزرو کنم.">
+                        <p>رزرو وقت</p>
+                        <button class="btn-secondary" style="padding: 8px 15px; font-size: 0.9rem;">استفاده</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال اطلاعات امنیتی -->
+    <div class="modal" id="securityModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeSecurityModal">&times;</button>
+            <h2 class="section-title">اطلاعات امنیتی</h2>
+            <div style="margin-top: 25px; line-height: 1.8;">
+                <p><strong>این سرویس چگونه از حریم خصوصی شما محافظت می‌کند:</strong></p>
+                <ul style="margin-right: 20px; margin-top: 15px;">
+                    <li>شماره تماس در هیچ‌جا ذخیره یا نمایش داده نمی‌شود</li>
+                    <li>پیام‌های شما در سرورهای ما ذخیره نمی‌شوند</li>
+                    <li>ارتباط از طریق پروتکل HTTPS رمزگذاری شده است</li>
+                    <li>واتساپ از رمزگذاری end-to-end برای محافظت از پیام‌ها استفاده می‌کند</li>
+                    <li>هیچ کوکی رهگیری‌کننده‌ای استفاده نمی‌شود</li>
+                </ul>
+                <div style="margin-top: 25px; padding: 15px; background: rgba(37, 211, 102, 0.1); border-radius: 10px;">
+                    <p><i class="fas fa-check-circle" style="color: var(--primary);"></i> این سرویس کاملاً رایگان است و نیازی به ثبت‌نام ندارد.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // شماره تلفن (در کد جاوااسکریپت پنهان شده)
+        const PHONE_NUMBER = "84776115200";
+        let messageCount = 2847;
+        let userCount = 1524;
+
+        // ایجاد ذرات متحرک در پس‌زمینه
+        function createParticles() {
+            const container = document.getElementById('backgroundAnimation');
+            const particleCount = window.innerWidth < 768 ? 15 : 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // اندازه تصادفی
+                const size = Math.random() * 80 + 20;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // موقعیت تصادفی
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // تاخیر انیمیشن
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // به‌روزرسانی شمارنده کاراکتر
+        function updateCharCount() {
+            const textarea = document.getElementById('messageInput');
+            const charCount = document.getElementById('charCount');
+            const count = textarea.value.length;
+            charCount.textContent = count;
+            
+            // تغییر رنگ بر اساس تعداد کاراکتر
+            if (count > 300) {
+                charCount.style.color = 'var(--danger)';
+            } else if (count > 200) {
+                charCount.style.color = 'var(--warning)';
+            } else {
+                charCount.style.color = 'var(--success)';
+            }
+        }
+
+        // ارسال پیام به واتساپ
+        function sendToWhatsApp() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            
+            if (!message) {
+                alert('لطفاً یک پیام وارد کنید.');
+                return;
+            }
+            
+            // کدگذاری پیام برای URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // ایجاد لینک واتساپ (شماره در اینجا استفاده می‌شود اما نمایش داده نمی‌شود)
+            const whatsappUrl = `https://wa.me/${PHONE_NUMBER}?text=${encodedMessage}`;
+            
+            // باز کردن لینک در تب جدید
+            window.open(whatsappUrl, '_blank');
+            
+            // افزایش شمارنده پیام‌ها
+            messageCount++;
+            document.getElementById('messageCount').textContent = messageCount.toLocaleString('fa-IR');
+            
+            // نمایش پیام موفقیت
+            showNotification('در حال انتقال به واتساپ...');
+        }
+
+        // نمایش مودال قالب‌ها
+        function showTemplatesModal() {
+            document.getElementById('templatesModal').classList.add('active');
+        }
+
+        // نمایش مودال اطلاعات امنیتی
+        function showSecurityModal() {
+            document.getElementById('securityModal').classList.add('active');
+        }
+
+        // نمایش اعلان
+        function showNotification(message) {
+            // ایجاد یک عنصر اعلان موقت
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--primary);
+                color: white;
+                padding: 15px 30px;
+                border-radius: 10px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+                z-index: 3000;
+                font-weight: 500;
+                animation: fadeInUp 0.3s, fadeOut 0.3s 2.7s forwards;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // حذف اعلان پس از 3 ثانیه
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        }
+
+        // افزایش آمار به صورت پویا
+        function animateStats() {
+            const stats = {
+                messageCount: 2847,
+                successRate: 99.8,
+                responseTime: 2.3,
+                userCount: 1524
+            };
+            
+            // افزایش تدریجی آمار
+            setInterval(() => {
+                stats.messageCount += Math.floor(Math.random() * 3);
+                stats.userCount += Math.floor(Math.random() * 2);
+                
+                document.getElementById('messageCount').textContent = stats.messageCount.toLocaleString('fa-IR');
+                document.getElementById('userCount').textContent = stats.userCount.toLocaleString('fa-IR');
+            }, 10000); // هر 10 ثانیه
+        }
+
+        // راه‌اندازی اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            // ایجاد ذرات پس‌زمینه
+            createParticles();
+            
+            // به‌روزرسانی شمارنده کاراکتر
+            updateCharCount();
+            document.getElementById('messageInput').addEventListener('input', updateCharCount);
+            
+            // تنظیم رویدادهای دکمه‌ها
+            document.getElementById('sendButton').addEventListener('click', sendToWhatsApp);
+            document.getElementById('templatesButton').addEventListener('click', showTemplatesModal);
+            document.getElementById('securityInfoButton').addEventListener('click', showSecurityModal);
+            
+            // بستن مودال‌ها
+            document.getElementById('closeTemplatesModal').addEventListener('click', function() {
+                document.getElementById('templatesModal').classList.remove('active');
+            });
+            
+            document.getElementById('closeSecurityModal').addEventListener('click', function() {
+                document.getElementById('securityModal').classList.remove('active');
+            });
+            
+            // بستن مودال با کلیک خارج از آن
+            window.addEventListener('click', function(event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.classList.remove('active');
+                }
+            });
+            
+            // استفاده از قالب‌های آماده
+            document.querySelectorAll('.template-item button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const template = this.parentElement.getAttribute('data-template');
+                    document.getElementById('messageInput').value = template;
+                    updateCharCount();
+                    document.getElementById('templatesModal').classList.remove('active');
+                    showNotification('قالب با موفقیت اعمال شد');
+                });
+            });
+            
+            // شروع انیمیشن آمار
+            animateStats();
+            
+            // نمایش آمار با اعداد فارسی
+            document.getElementById('messageCount').textContent = messageCount.toLocaleString('fa-IR');
+            document.getElementById('userCount').textContent = userCount.toLocaleString('fa-IR');
+            
+            // اضافه کردن انیمیشن‌های CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateX(-50%) translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateX(-50%) translateY(0);
+                    }
+                }
+                
+                @keyframes fadeOut {
+                    from {
+                        opacity: 1;
+                    }
+                    to {
+                        opacity: 0;
+                    }
+                }
+                
+                .template-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 15px;
+                    margin-bottom: 15px;
+                    background: rgba(255,255,255,0.05);
+                    border-radius: 10px;
+                    border: 1px solid rgba(255,255,255,0.1);
+                    transition: all 0.3s;
+                }
+                
+                .template-item:hover {
+                    background: rgba(255,255,255,0.1);
+                    border-color: var(--primary);
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
